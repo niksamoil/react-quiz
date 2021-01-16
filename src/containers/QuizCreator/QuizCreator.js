@@ -12,6 +12,7 @@ function createOptionControl(number) {
 		{
 			label: `Вариант ${number}`,
 			errorMessage: 'Значение не может быть пустым!',
+			id: number
 		},
 		{ required: true }
 	);
@@ -47,9 +48,38 @@ class QuizCreator extends Component {
 
 	addQuestionHandler = (e) => {
 		e.preventDefault();
+
+		const quiz = this.state.quiz.concat();
+		const index = quiz.length + 1;
+
+		const {questions, options1, options2, options3, options4} = this.state.formControls;
+
+		const questionItem = {
+			questions: questions.value,
+			id: index,
+			rightAnswerId: this.state.rightAnswerId,
+			answers: [
+				{text: options1.value, id: options1.id},
+				{text: options2.value, id: options2.id},
+				{text: options3.value, id: options3.id},
+				{text: options4.value, id: options4.id}
+			]
+		};
+
+		quiz.push(questionItem);
+
+		this.setState({
+			quiz,
+			isFormValid: false,
+			formControls: createFormControls(),
+			rightAnswerId: 1
+		});
 	};
 
-	createQuizHandler = () => {};
+	createQuizHandler = (e) => {
+		e.preventDefault();
+		console.log(this.state.quiz);
+	};
 
     changeHandler = (value, controlName) => {
 		const formControls = { ...this.state.formControls };
