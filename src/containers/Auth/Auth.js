@@ -5,7 +5,6 @@ import Input from '../../components/UI/Input/Input';
 import is from 'is_js';
 
 class Auth extends Component {
-
 	state = {
 		isFormValid: false,
 		formControls: {
@@ -18,8 +17,8 @@ class Auth extends Component {
 				touched: false,
 				validation: {
 					required: true,
-					email: true
-				}
+					email: true,
+				},
 			},
 			password: {
 				value: '',
@@ -30,11 +29,11 @@ class Auth extends Component {
 				touched: false,
 				validation: {
 					required: true,
-					minLength: 6
-				}
-			}
-		}
-	}
+					minLength: 6,
+				},
+			},
+		},
+	};
 
 	loginHandler = () => {};
 
@@ -45,22 +44,21 @@ class Auth extends Component {
 	};
 
 	validateControl(value, validation) {
-
-		if(!validation) {
+		if (!validation) {
 			return true;
 		}
 
 		let isValid = true;
 
-		if(validation.required) {
+		if (validation.required) {
 			isValid = value.trim() !== '' && isValid;
 		}
 
-		if(validation.email) {
+		if (validation.email) {
 			isValid = is.email(value) && isValid;
 		}
 
-		if(validation.minLength) {
+		if (validation.minLength) {
 			isValid = value.length >= validation.minLength && isValid;
 		}
 
@@ -68,8 +66,6 @@ class Auth extends Component {
 	}
 
 	onChangeHandler = (event, controlName) => {
-		console.log(`${controlName}:`, event.target.value);
-
 		const formControls = { ...this.state.formControls };
 		const control = { ...formControls[controlName] };
 
@@ -81,33 +77,37 @@ class Auth extends Component {
 
 		let isFormValid = true;
 
-		Object.keys(formControls).forEach(name => {
+		Object.keys(formControls).forEach((name) => {
 			isFormValid = formControls[name].valid && isFormValid;
 		});
 
 		this.setState({
 			formControls,
-			isFormValid
+			isFormValid,
 		});
-	}
+	};
 
 	renderInputs() {
-		return Object.keys(this.state.formControls).map((controlName, index) => {
-			const control = this.state.formControls[controlName];
-			return (
-				<Input
-					key={controlName + index}
-					type={control.type}
-					value={control.value}
-					valid={control.valid}
-					touched={control.touched}
-					label={control.label}
-					shouldValidate={!!control.validation}
-					errorMessage={control.errorMessage}
-					onChange={event => this.onChangeHandler(event, controlName)}
-				/>
-			);
-		});
+		return Object.keys(this.state.formControls).map(
+			(controlName, index) => {
+				const control = this.state.formControls[controlName];
+				return (
+					<Input
+						key={controlName + index}
+						type={control.type}
+						value={control.value}
+						valid={control.valid}
+						touched={control.touched}
+						label={control.label}
+						shouldValidate={!!control.validation}
+						errorMessage={control.errorMessage}
+						onChange={(event) =>
+							this.onChangeHandler(event, controlName)
+						}
+					/>
+				);
+			}
+		);
 	}
 
 	render() {
