@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import {createControl} from '../../form/formFramework';
 import classes from './QuizCreator.module.css';
 import Button from '../../components/UI/Button/Button';
-import {createControl} from '../../form/formFramework';
 import Input from '../../components/UI/Input/Input';
 import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
+import Select from '../../components/UI/Select/Select';
 
 
 function createOptionControl(number) {
@@ -35,7 +36,8 @@ function createFormControls(params) {
 class QuizCreator extends Component {
 	state = {
 		quiz: [],
-		formControls: createFormControls(),
+        formControls: createFormControls(),
+        rightAnswerId: 1
 	};
 
 	submitHandler = (e) => {
@@ -46,7 +48,13 @@ class QuizCreator extends Component {
 
 	createQuizHandler = () => {};
 
-	changeHandler = (value, controlName) => {};
+    changeHandler = (value, controlName) => {};
+    
+    selectChangeHandler = (e) => {
+        this.setState({
+            rightAnswerId: +e.target.value
+        });
+    }
 
 	renderControls() {
 		return Object.keys(this.state.formControls).map(
@@ -74,6 +82,31 @@ class QuizCreator extends Component {
 	}
 
 	render() {
+        const select = (
+			<Select
+				label='Выберите правильный ответ'
+				value={this.state.rightAnswerId}
+				onChange={this.selectChangeHandler}
+				options={[
+					{
+						text: 1,
+						value: 1,
+					},
+					{
+						text: 2,
+						value: 2,
+					},
+					{
+						text: 3,
+						value: 3,
+					},
+					{
+						text: 4,
+						value: 4,
+					},
+				]}
+			/>
+		);
 		return (
 			<div className={classes.QuizCreator}>
 				<div>
@@ -82,7 +115,7 @@ class QuizCreator extends Component {
 					<form onSubmit={this.submitHandler}>
 						{this.renderControls()}
 
-						<select name='' id=''></select>
+						{select}
 						<Button
 							type='primary'
 							onClick={this.addQuestionHandler}
