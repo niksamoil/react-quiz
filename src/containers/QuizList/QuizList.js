@@ -37,10 +37,10 @@ class QuizList extends Component {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({quiz: {quizes, loading}}) => {
 	return {
-		quizes: state.quiz.quizes,
-		loading: state.quiz.loading
+		quizes,
+		loading
 	};
 };
 
