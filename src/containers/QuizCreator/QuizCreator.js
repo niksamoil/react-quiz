@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {createControl, validate, validateForm} from '../../form/formFramework';
 import { connect } from 'react-redux';
-import axios from '../../axios/axios-quiz';
 import classes from './QuizCreator.module.css';
 import Button from '../../components/UI/Button/Button';
 import Input from '../../components/UI/Input/Input';
