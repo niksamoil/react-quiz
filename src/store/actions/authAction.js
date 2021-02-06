@@ -39,7 +39,7 @@ export const autoLogin = () => {
                 dispatch(logout());
             } else {
                 dispatch(authSuccess(token));
-                dispatch(autoLogout((expirationDate.getTime() - new Date().getTime() / 1000)));
+                dispatch(autoLogout((expirationDate.getTime() - new Date().getTime()) / 1000));
             }
 
         }
@@ -63,8 +63,6 @@ export const auth = (email, password, isLogin) => {
 		const response = await axios.post(url, authData);
         const data = response.data;
         const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000);
-
-        console.log(data);
 
         localStorage.setItem('token', data.idToken);
         localStorage.setItem('userId', data.localId);
