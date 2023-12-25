@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb", "airbnb/hooks"],
   "env": {
     "browser": true,
     "node": true,
@@ -7,6 +7,8 @@
   },
   "rules": {
     // Add custom rules here
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/prop-types": "off",
+    "no-unused-vars": "warn"
   }
 }
