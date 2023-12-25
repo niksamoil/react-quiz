@@ -1,38 +1,46 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 import classes from './Input.module.css';
 
-function isInvalid({ valid, touched, shouldValidate }) {
-    return !valid && shouldValidate && touched;
+function Input(props) {
+  const {
+    type = 'text',
+    label,
+    value,
+    onChange,
+    valid,
+    touched,
+    shouldValidate,
+    errorMessage,
+  } = props;
+  const htmlFor = `${type}-${Math.random()}`;
+  const isInvalid = !valid && shouldValidate && touched;
+  const cls = [classes.Input, isInvalid ? classes.invalid : null].join(' ');
+
+  return (
+    <div className={cls}>
+      <label htmlFor={htmlFor}>{label}</label>
+      <input type={type} id={htmlFor} value={value} onChange={onChange} />
+
+      {isInvalid && <span>{errorMessage || 'Введите верное значение'}</span>}
+    </div>
+  );
 }
 
-const Input = (props) => {
-    const inputType = props.type || 'text';
-    const cls = [classes.Input];
-    const htmlFor = `${inputType}-${Math.random()}`;
+Input.propTypes = {
+  type: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  valid: PropTypes.bool.isRequired,
+  touched: PropTypes.bool.isRequired,
+  shouldValidate: PropTypes.bool.isRequired,
+  errorMessage: PropTypes.string,
+};
 
-    if (isInvalid(props)) {
-        cls.push(classes.invalid);
-    }
-
-    
-    return (
-        <div className={cls.join(' ')}>
-            <label htmlFor={htmlFor}>{props.label}</label>
-            <input
-                type={inputType}
-                id={htmlFor}
-                value={props.value}
-                onChange={props.onChange}
-            />
-
-            {
-                isInvalid(props)
-                    ? <span>{props.errorMessage || 'Введите верное значение'}</span>
-                    : null
-            }
-        </div>
-    );
+Input.defaultProps = {
+  type: 'text',
+  errorMessage: null,
 };
 
 export default Input;
-
